@@ -2,10 +2,11 @@ import { Component, OnInit } from 'angular2/core'
 
 import { Hero } from './hero'
 import { HeroDetailComponent } from './hero-detail.component'
+import { TestComponent } from './test.component';
 import { HeroService } from './hero-service'
 
 @Component({
-  selector: 'my-app',
+  selector: 'app',
   template: `
     <h1>{{title}}</h1>
     <h2>My Heroes</h2>
@@ -15,6 +16,7 @@ import { HeroService } from './hero-service'
       </li>
     </ul>
     <my-hero-detail [hero]="selectedHero"></my-hero-detail>
+    <test-selector></test-selector>
   `,
   styles:[`
     .selected {
@@ -64,7 +66,7 @@ import { HeroService } from './hero-service'
       border-radius: 4px 0px 0px 4px;
     }
   `],
-  directives: [HeroDetailComponent],
+  directives: [HeroDetailComponent, TestComponent],
   providers: [HeroService]
 })
 export class AppComponent implements OnInit {
