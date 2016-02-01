@@ -7,7 +7,8 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
-    "start": "concurrent \"npm run tsc:w\" \"npm run lite\" "
+    "start": "concurrent \"npm run mockdev\" \"webpack --watch\" ",
+    "mockdev": "nodemon dist/server/bundle.js -w dist/server/bundle.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "es6-shim": "^0.33.3",
     "express": "^4.13.3",
     "lodash": "^3.10.1",
+    "ng2-bootstrap": "^1.0.2-beta.0",
     "parse5": "^1.5.0",
     "preboot": "~1.1.0",
     "reflect-metadata": "0.1.2",
@@ -29,6 +31,7 @@
   },
   "devDependencies": {
     "nodemon": "^1.8.1",
+    "raw-loader": "^0.5.1",
     "rimraf": "^2.5.0",
     "ts-loader": "^0.8.0",
     "typescript": "^1.7.3",

@@ -18,3 +18,4 @@ ts-node src/server.ts
 
 - Must be Node 4.x
 - Server Rendering
+- ng2-bootstrap

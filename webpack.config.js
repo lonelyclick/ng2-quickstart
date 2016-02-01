@@ -1,3 +1,4 @@
+var webpack = require('webpack')
 var webpackMerge = require('webpack-merge');
 var path = require('path');
 
@@ -11,17 +12,24 @@ var common = {
         test: /\.ts$/,
         loader: 'ts-loader',
         exclude: [ /node_modules/ ]
-      }
+      },
+      { test: /\.html$/,  loader: 'raw-loader' },
+      { test: /\.css$/,   loader: 'raw-loader' }
     ]
   }
 };
 
 var client = {
   target: 'web',
-  entry: './src/client',
+  entry: ['./src/client'],
   output: {
     path: __dirname + '/dist/client'
-  }
+  },
+  plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ]
 };
 
 var server = {

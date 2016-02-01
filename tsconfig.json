@@ -11,6 +11,7 @@
   "files": [
     "typings/main.d.ts",
     "src/client.ts",
-    "src/server.ts"
+    "src/server.ts",
+    "webpack.config.js"
   ]
 }

@@ -4,6 +4,9 @@
   "ambientDependencies": {
     "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#dd4626a4e23ce8d6d175e0fe8244a99771c8c3f2",
     "mime": "github:DefinitelyTyped/DefinitelyTyped/mime/mime.d.ts#cb5206a8ac1c9a3ddfd126f5ecea6729b2361452",
-    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#0fa4e9e61385646ea6a4cba2aef357353d2ce77f"
+    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#0fa4e9e61385646ea6a4cba2aef357353d2ce77f",
+    "source-map": "github:DefinitelyTyped/DefinitelyTyped/source-map/source-map.d.ts#1c572762b93d4b059d89339867edf54946176361",
+    "uglify-js": "github:DefinitelyTyped/DefinitelyTyped/uglify-js/uglify-js.d.ts#51b587292f2ba85d68939d9c59cf7fa745a6173e",
+    "webpack": "github:DefinitelyTyped/DefinitelyTyped/webpack/webpack.d.ts#51868917c7480cc6b1187a59bbd0120effa29841"
   }
 }

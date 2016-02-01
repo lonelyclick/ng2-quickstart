@@ -1,0 +1,15 @@
+<div id="login">
+  <h1>某某管控系统</h1>
+
+  <form>
+    <div class="form-group">
+      <label for="login-username-label">用户名</label>
+      <input type="text" class="form-control" id="login-username-label" placeholder="请输入您的用户名，至少5位" required [(ngModel)]="username" (keyup.enter)="onSubmit()" autofocus>
+    </div>
+    <div class="form-group">
+      <label for="login-password-label">密码</label>
+      <input type="password" class="form-control" id="login-password-label" placeholder="请输入您的密码，至少6位" required [(ngModel)]="password" (keyup.enter)="onSubmit()">
+    </div>
+    <button type="submit" class="btn btn-success" (click)="onSubmit()" [disabled]="!isValid()" type="button">登录</button>
+  </form>
+</div>

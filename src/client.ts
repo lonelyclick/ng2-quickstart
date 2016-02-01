@@ -1,4 +1,7 @@
 import {bootstrap} from 'angular2-universal-preview'
-import { AppComponent } from './app.component'
+import { App } from './app/app'
+import {ROUTER_PROVIDERS} from 'angular2/router';
 
-bootstrap(AppComponent)
+bootstrap(App, [
+  ...ROUTER_PROVIDERS
+])
