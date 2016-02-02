@@ -15,12 +15,14 @@ app.set('views', __dirname)
 app.set('view engine', 'html')
 
 
+enableProdMode()
+
 app.use(express.static(root))
 
 app.use('/api/auth', (req, res) => {
   res.send(JSON.stringify({
     ec: 0,
-    msg: 'ok'
+    msg: 'okmemeda'
   }))
 })
 

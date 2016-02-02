@@ -30,6 +30,7 @@
     "zone.js": "0.5.10"
   },
   "devDependencies": {
+    "angular2-hot-loader": "0.0.17",
     "nodemon": "^1.8.1",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.5.0",

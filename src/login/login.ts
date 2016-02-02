@@ -14,7 +14,7 @@ import { Auth } from './providers/auth'
     Auth,
   ]
 })
-export class LoginComponent {
+export class Login {
   public username:String = ''
   public password:String = ''
 
@@ -35,7 +35,7 @@ export class LoginComponent {
   loginRespond(response) {
     response = response.json()
     if (response.ec === 0) {
-      alert('登录成功')
+      alert(`登录成功 - ${response.msg}`)
     } else {
       alert(`登录失败 ${response.msg || ''}`)
     }
