@@ -1,72 +1,146 @@
-var webpack = require('webpack')
-var webpackMerge = require('webpack-merge');
+/*
+ * Helper: root(), and rootDir() are defined at the bottom
+ */
 var path = require('path');
+var webpack = require('webpack');
+var CopyWebpackPlugin  = require('copy-webpack-plugin');
+var HtmlWebpackPlugin  = require('html-webpack-plugin');
+var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
-var common = {
-  resolve: {
-    extensions: ['', '.ts', '.json', '.js']
+var metadata = {
+  title: 'ng2 quick start',
+  baseUrl: '/',
+  host: 'localhost',
+  port: 3000,
+  ENV: ENV
+};
+/*
+ * Config
+ */
+module.exports = {
+  // static data for index.html
+  metadata: metadata,
+  // for faster builds use 'eval'
+  devtool: 'source-map',
+  debug: true,
+
+  // our angular app
+  entry: { 'vendor': './src/vendor.ts', 'main': './src/client.ts' },
+
+  // Config for our build files
+  output: {
+    path: root('dist'),
+    filename: '[name].bundle.js',
+    sourceMapFilename: '[name].map',
+    chunkFilename: '[id].chunk.js'
   },
+
+  resolve: {
+    // ensure loader extensions match
+    extensions: ['','.ts','.js','.json','.css','.html']
+  },
+
   module: {
+    preLoaders: [{ test: /\.ts$/, loader: 'tslint-loader', exclude: [/node_modules/] }],
     loaders: [
+      // Support for .ts files.
       {
         test: /\.ts$/,
         loader: 'ts-loader',
-        exclude: [ /node_modules/ ]
+        query: {
+          'ignoreDiagnostics': [
+            2403, // 2403 -> Subsequent variable declarations
+            2300, // 2300 -> Duplicate identifier
+            2374, // 2374 -> Duplicate number index signature
+            2375  // 2375 -> Duplicate string index signature
+          ]
+        },
+        exclude: [ /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/ ]
       },
+
+      // Support for *.json files.
+      { test: /\.json$/,  loader: 'json-loader' },
+
+      // Support for CSS as raw text
+      { test: /\.css$/,   loader: 'raw-loader' },
+
+      // support for .html as raw text
       { test: /\.html$/,  loader: 'raw-loader' },
-      { test: /\.css$/,   loader: 'raw-loader' }
+   
+      {
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/font-woff&name=/assets/[name].[ext]'
+      },
+      {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/font-woff&name=/assets/[name].[ext]'
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/octet-stream&name=/assets/[name].[ext]'
+      },
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file?name=/assets/[name].[hash].[ext]'
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=image/svg+xml&name=/assets/[name].[ext]'
+      },
+
+      // if you add a loader include the resolve file extension above
+      {
+        test: /\.css$/,
+        // include: /node_modules/,
+        loader: 'style-loader!css-loader'
+      },
+      {
+        test: /\.scss$/,
+        loader: 'style-loader!css-loader!sass-loader'
+      }
     ]
-  }
-};
-
-var client = {
-  target: 'web',
-  entry: ['./src/client'],
-  output: {
-    path: __dirname + '/dist/client'
   },
+
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin()
-  ]
+    new webpack.optimize.OccurenceOrderPlugin(true),
+    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js', minChunks: Infinity }),
+    // static assets
+    new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
+    // generating html
+    new HtmlWebpackPlugin({ template: 'src/index.html', inject: false }),
+    // replace
+    new webpack.DefinePlugin({
+      'process.env': {
+        'ENV': JSON.stringify(metadata.ENV),
+        'NODE_ENV': JSON.stringify(metadata.ENV)
+      }
+    })
+  ],
+
+  // Other module loader config
+  tslint: {
+    emitErrors: false,
+    failOnHint: false
+  },
+  // our Webpack Development Server config
+  devServer: {
+    port: metadata.port,
+    host: metadata.host,
+    historyApiFallback: true,
+    watchOptions: { aggregateTimeout: 300, poll: 1000 }
+  },
+  // we need this due to problems with es6-shim
+  node: {global: 'window', progress: false, crypto: 'empty', module: false, clearImmediate: false, setImmediate: false}
 };
 
-var server = {
-  target: 'node',
-  entry: './src/server',
-  output: {
-    path: __dirname + '/dist/server'
-  },
-  externals: function checkNodeImport(context, request, cb) {
-    if (!path.isAbsolute(request) && request.charAt(0) !== '.') {
-      cb(null, 'commonjs ' + request); return;
-    }
-    cb();
-  },
-  node: {
-    global: true,
-    __dirname: true,
-    __filename: true,
-    process: true,
-    Buffer: true
-  }
-};
+// Helper functions
 
-var defaults = {
-  context: __dirname,
-  resolve: {
-    root: __dirname + '/src'
-  },
-  output: {
-    publicPath: path.resolve(__dirname),
-    filename: 'bundle.js'
-  }
+function root(args) {
+  args = Array.prototype.slice.call(arguments, 0);
+  return path.join.apply(path, [__dirname].concat(args));
 }
 
-module.exports = [
-  // Client
-  webpackMerge({}, defaults, common, client),
-
-  // Server
-  webpackMerge({}, defaults, common, server)
-]
+function rootNode(args) {
+  args = Array.prototype.slice.call(arguments, 0);
+  return root.apply(path, ['node_modules'].concat(args));
+}

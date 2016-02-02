@@ -15,8 +15,8 @@ import { Auth } from './providers/auth'
   ]
 })
 export class Login {
-  public username:String = ''
-  public password:String = ''
+  public username: String = ''
+  public password: String = ''
 
   constructor(private _auth: Auth) {}
 
@@ -25,7 +25,8 @@ export class Login {
       return
     }
 
-    this._auth.doAuth().subscribe(this.loginRespond, error => alert(`Server error. Try again later`))
+    this._auth.doAuth()
+    .subscribe(this.loginRespond, error => alert(`Server error. Try again later`))
   }
 
   isValid() {

@@ -1,13 +1,9 @@
 import { Injectable } from 'angular2/core'
-import { Http }       from 'angular2/http';
-import { Observable } from 'rxjs/Observable';
-
-console.log(Http)
+import { Http }       from 'angular2/http'
+import { Observable } from 'rxjs/Observable'
 
 @Injectable()
 export class Auth {
-  title = "abc"
-
   constructor(private http: Http) {}
 
   doAuth() {
@@ -15,7 +11,6 @@ export class Auth {
   }
 
   private logAndPassOn (error: Error) {
-    console.error(error);
-    return Observable.throw(error);
+    return Observable.throw(error)
   }
 }
