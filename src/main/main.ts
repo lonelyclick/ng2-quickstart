@@ -7,6 +7,9 @@ import { Component } from 'angular2/core'
     require('./main.css')
   ],
   providers: [
-  ]
+  ],
+  host: {
+    class: 'main-class-hahahaha'
+  }
 })
 export class Main {}
